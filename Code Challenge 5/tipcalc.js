@@ -56,3 +56,6 @@ console.log(john, harry);
 //Calculating Average for the families
 john.average = calciAverage(john.tip);
 harry.average = calciAverage(harry.tip);
+
+
+
