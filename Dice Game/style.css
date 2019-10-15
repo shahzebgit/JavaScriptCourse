@@ -2,11 +2,36 @@
 *** GENERAL
 **********************************************/
 
+
+
+/*final score*/
+.final-score{
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top:520px;
+    color: #555;
+    font-size: 18px;
+    font-family: 'Lato';
+    text-align: center;
+    padding: 10px;
+    width: 160px;
+    text-transform: uppercase;
+}
+.final-score:focus{
+    outline: none;    
+}
+
+/*New Dice 2*/
+#dice-1{top:120px;}
+#dice-2{top:250px;}
+
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    
+
 }
 
 .clearfix::after {
@@ -71,8 +96,13 @@ body {
     margin-bottom: 120px;
 }
 
-.active { background-color: #f7f7f7; }
-.active .player-name { font-weight: 300; }
+.active {
+    background-color: #f7f7f7;
+}
+
+.active .player-name {
+    font-weight: 300;
+}
 
 .active .player-name::after {
     content: "\2022";
@@ -81,7 +111,7 @@ body {
     color: #0ddd30;
     top: -7px;
     right: 10px;
-    
+
 }
 
 .player-current-box {
@@ -112,7 +142,7 @@ button {
     color: #555;
     background: none;
     border: none;
-    
+
     font-size: 20px;
     text-transform: uppercase;
     cursor: pointer;
@@ -120,8 +150,13 @@ button {
     transition: background-color 0.3s, color 0.3s;
 }
 
-button:hover { font-weight:400; }
-button:hover i { margin-right: 20px; }
+button:hover {
+    font-weight: 400;
+}
+
+button:hover i {
+    margin-right: 20px;
+}
 
 button:focus {
     outline: none;
@@ -138,9 +173,17 @@ i {
     transition: margin 0.3s;
 }
 
-.btn-new { top: 50px;}
-.btn-roll { top: 403px;}
-.btn-hold { top: 467px;}
+.btn-new {
+    top: 50px;
+}
+
+.btn-roll {
+    top: 403px;
+}
+
+.btn-hold {
+    top: 467px;
+}
 
 .dice {
     position: absolute;
@@ -148,8 +191,14 @@ i {
     top: 178px;
     transform: translateX(-50%);
     height: 100px;
-    box-shadow: 3px 3px 17px 1px rgba(0,0,0,0.66);
+    box-shadow: 3px 3px 17px 1px rgba(0, 0, 0, 0.66);
 }
 
-.winner { background-color: #f7f7f7; }
-.winner .player-name { font-weight: 300; color: #EB4D4D; }
+.winner {
+    background-color: #f7f7f7;
+}
+
+.winner .player-name {
+    font-weight: 300;
+    color: #EB4D4D;
+}
