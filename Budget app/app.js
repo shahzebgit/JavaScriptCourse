@@ -24,6 +24,12 @@ var budgetController = (function () {
         this.description = description;
         this.value = value;
     };
+     var Savings = function (id , description, value) {
+        this.id = id;
+        this.description = description;
+        this.value = value;
+        
+     };
 
     var calculateTotal = function (type) {
         var sum = 0;
@@ -37,7 +43,8 @@ var budgetController = (function () {
     var data = {
         allItems: {
             exp: [],
-            inc: []
+            inc: [],
+            save: []
         },
         totals: {
             exp: 0,
@@ -63,6 +70,8 @@ var budgetController = (function () {
                 newItem = new Expense(ID, des, val);
             } else if (type === 'inc') {
                 newItem = new Income(ID, des, val);
+            }else if(type === 'save'){
+                newItem = new Savings (ID,des , val);
             }
 
             // Push it into our data structure
@@ -158,7 +167,8 @@ var UIController = (function () {
         percentageLabel: '.budget__expenses--percentage',
         container: '.container',
         expensesPercLabel: '.item__percentage',
-        dateLabel :'.budget__title--month'
+        dateLabel :'.budget__title--month',
+        savingsContainer : '.savings__list'
     };
     var formatNumber = function (num, type) {
         var numSplit, int, dec;
@@ -211,6 +221,9 @@ var UIController = (function () {
             } else if (type === 'exp') {
                 element = DOMStrings.expenseContainer;
                 html = '<div class="item clearfix" id="exp-%id%"><div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">%value%</div><div class="item__percentage">21%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>';
+            }else if(type === 'save'){
+                element = DOMStrings.savingsContainer;
+                html = '<div class="item clearfix" id="save-%id%"><div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">%value%</div></div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div>';
             }
 
             //Replcae the placeholder text with some actual data
@@ -297,7 +310,6 @@ var UIController = (function () {
                 NodeListForEach(fields ,function (cur) {
                     cur.classList.add('red-focus');
                 })
-
                 document.querySelector(DOMStrings.inputBtn).classList.toggle('red');
             
         },
@@ -360,6 +372,8 @@ var appController = (function (budgetCtl, UICtl) {
         var input, newItem;
         //1.Get the input data 
         var input = UICtl.getInput();
+        console.log(input);
+        
 
         //This is for Descp and Value should not be empty or Zero
         if (input.descrip !== "" && !isNaN(input.value) && input.value > 0) {
