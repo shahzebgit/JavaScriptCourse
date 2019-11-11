@@ -98,12 +98,10 @@ var budgetController = (function() {
       calculateTotal("save");
 
       //Calculate the budget: income - expenses
-
-   
-        data.budget = data.totals.inc - data.totals.exp;
+       data.budget = data.totals.inc - data.totals.exp;
         
-    
-        data.budget = data.totals.inc - data.totals.save;
+      // Calculate the budget: income - savings
+       
         
      
 
