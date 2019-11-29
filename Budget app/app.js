@@ -57,7 +57,7 @@ var budgetController = (function() {
       var newItem, ID;
 
       if (data.allItems[type].length > 0) {
-        ID = data.allItems[type][data.allItems[type].length - 1].id + 1;
+        ID = (data.allItems[type].length-1) + 1;
       } else {
         ID = 0;
       }
@@ -79,34 +79,37 @@ var budgetController = (function() {
     },
 
     deleteItem: function(type, id) {
-      var ids, index;
-      //
-      ids = data.allItems[type].map(function(current) {
-        return current.id;
-      });
-      index = ids.indexOf(id);
-
-      if (index !== -1) {
-        data.allItems[type].splice(index, 1);
+      if (type=="save"){
+          UIController.addListItems(data.allItems.save[id],'inc');
+          delete data.allItems.save[id];
+          calculateTotal("inc");
+          console.log(data.allItems.save);
       }
+      else{
+        delete data.allItems.save[id];
+        calculateTotal(type);
+      }
+      
     },
 
     calculateBudget: function() {
-      //calculate total income and expenses
+
+      //calculate total income ,expenses and savings
       calculateTotal("exp");
       calculateTotal("inc");
       calculateTotal("save");
 
       //Calculate the budget: income - expenses
-       data.budget = data.totals.inc - data.totals.exp;
-        
-      // Calculate the budget: income - savings
-       
-        
-     
+       //cURRENT acc
 
-        console.log(data);
-        
+      data.budget = data.totals.inc - data.totals.exp;
+
+      // Calculate the budget: income - savings
+      //Saving acc
+
+      data.budget = data.budget - data.totals.save
+
+
      
       //calculate the percentage
       if (data.totals.inc > 0) {
@@ -204,6 +207,7 @@ var UIController = (function() {
 
     addListItems: function(obj, type) {
       var html, newHtml, element;
+      console.log(obj)
 
       //Create HTML string with placeholder text
       if (type === "inc") {
@@ -220,7 +224,7 @@ var UIController = (function() {
           '<div class="item clearfix" id="save-%id%"><div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">%value%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>';
       }
 
-      //Replcae the placeholder text with some actual data
+      //Replace the placeholder text with some actual data
       newHtml = html.replace("%id%", obj.id);
       newHtml = newHtml.replace("%description%", obj.description);
       newHtml = newHtml.replace("%value%", formatNumber(obj.value, type));
@@ -249,7 +253,7 @@ var UIController = (function() {
 
     displayBudget: function(obj) {
       var type;
-      obj.budget > 0 ? (type = "inc") : (type = "exp");
+      obj.budget >= 0 ? (type = "inc") : (type = "exp");
       document.querySelector(DOMStrings.budgetLabel).textContent = formatNumber(obj.budget,type);
       document.querySelector(DOMStrings.incomeLabel).textContent = formatNumber(obj.totalInc, "inc");
       document.querySelector(DOMStrings.expenseLabel).textContent = formatNumber(obj.totalExp, "exp");
@@ -349,6 +353,7 @@ var appController = (function(budgetCtl, UICtl) {
 
     //3.Display the budget in the UI
     UICtl.displayBudget(budget);
+    
   };
 
   var updatePercentage = function() {
@@ -378,6 +383,7 @@ var appController = (function(budgetCtl, UICtl) {
 
       //3. add the item in the UI
       UICtl.addListItems(newItem, input.type);
+      
 
       //4 Clear Fields
       UICtl.clearFields();
